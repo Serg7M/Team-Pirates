@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="projects">
+        <aside class="projects__filter">
+            {% for cat in categories %}
+                <div class="filter__item">
+                    <p class="item__name">{{ cat.category }}</p>
+                    <div class="item__checkbox">
+                        <input type="checkbox" data-set-id="{{ cat.id }}" class="item__checkbox_input">
+                        <div class="checkbox_image"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </aside>
+        <div class="projects__content">
+            {% for proj in projects %}
+                <a class="card" href="{{ proj.get_absolute_url }}">
+                    <img src="{{ proj.photo.url }}" alt="{{ proj.name }}" class="card__image">
+                    <h3 class="card__title">{{ proj.name }}</h3>
+                    <p class="card__description">
+                        {{ proj.description|truncatewords:"20" }}
+                    </p>
+                    <p class="card__team">{{ proj.name_team }}</p>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="projects__load"><img src="{% static 'images/loading.gif' %}" alt="Загрузка" class="load_gif"></div>
+    </div>
+{% endblock %}

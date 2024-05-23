@@ -1,0 +1,51 @@
+.project-detail{
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.project-detail__block{
+    margin: 40px 0;
+    max-width: 700px;
+}
+
+.project-detail .block__title{
+    font-size: 36px;
+}
+
+.project-detail .block__description{
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.project-detail__description{
+    margin: 20px 0;
+    font-size: 24px;
+    line-height: 1.2;
+    max-width: 800px;
+}
+
+.project-detail__technologies__title{
+    font-size: 38px;
+}
+
+.project-detail__technologies .technology{
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.project-detail .videos{
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.project-detail__git_link{
+    font-size: 40px;
+}
+
+.git_link{
+    color: #1F78D1;
+}

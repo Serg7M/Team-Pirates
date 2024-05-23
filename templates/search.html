@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if projects %}
+        {% if search_value %}
+            <h1 class="search_value">По запросу ' {{ search_value }} ' найдено:</h1>
+        {% endif %}
+   {% else %}
+           <h1 class="search_value">По запросу ' {{ search_value }} ' ничего не найдено</h1>
+    {% endif %}
+    <div class="projects projects_search">
+        {% if projects %}
+            <div class="projects__content ">
+                {% for proj in projects %}
+                    <a class="card" href="{{ proj.get_absolute_url }}">
+                        <img src="{{ proj.photo.url }}" alt="{{ proj.name }}" class="card__image">
+                        <h3 class="card__title">{{ proj.name }}</h3>
+                        <p class="card__description">
+                            {{ proj.description|truncatewords:"20" }}
+                        </p>
+                        <p class="card__team">{{ proj.name_team }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

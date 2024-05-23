@@ -1,0 +1,12 @@
+{% load static %}
+<header class="header">
+    <div class="header__content">
+        <a href="{% url 'projects:home' %}" class="main_link">
+            <img src="{% static 'images/home_icon.svg' %}" alt="Главная страница" class="main_image">
+        </a>
+        <form action="{% url 'projects:search' %}" class="search__projects_form" method="get">
+            <input type="text" class="form__input" placeholder="Введите название проекта" name="search">
+            <input type="submit" value="" class="form__submit">
+        </form>
+    </div>
+</header>

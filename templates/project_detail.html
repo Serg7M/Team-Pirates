@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="project-detail">
+        <div class="owl-carousel owl-theme owl-slider-photos" id="slider-photos">
+            {% for img in project.project_image.all %}
+                <div class="slide">
+                    <img src="{{ img.image.url }}" alt="{{ project.name }}">
+                </div>
+            {% endfor %}
+        </div>
+        {% if project.team %}
+            <div class="team project-detail__block">
+                <h2 class="team__title block__title">Команда:</h2>
+                <p class="team__description block__description">{{ project.team }}</p>
+            </div>
+        {% endif %}
+        {% if project.task %}
+            <div class="task project-detail__block">
+                <h2 class="task__title block__title">Задача:</h2>
+                <p class="task__description block__description">{{ project.task }}</p>
+            </div>
+        {% endif %}
+        {% if project.solution %}
+            <div class="solution project-detail__block">
+                <h2 class="solution__title block__title">Решение:</h2>
+                <p class="solution__description block__description">{{ project.solution }}</p>
+            </div>
+        {% endif %}
+        <p class="project-detail__description">{{ project.description }}</p>
+        <ul class="project-detail__technologies">
+            <h2 class="project-detail__technologies__title">Технологии:</h2>
+            {% for tech in project.technologies.all %}
+                <li class="technology">{{ tech.technology }}</li>
+            {% endfor %}
+        </ul>
+        <div class="videos">
+            {% for vid in project.project_video.all %}
+                <iframe width="560" height="315" src="{{ vid.video }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            {% endfor %}
+        </div>
+        {% if project.git_link %}
+            <h3 class="project-detail__git_link">Ссылка на репозиторий: <a href="{{ project.git_link }}" class="git_link">git</a></h3>
+        {% endif %}
+    </div>
+{% endblock %}

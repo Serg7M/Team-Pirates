@@ -1,0 +1,132 @@
+@font-face {
+    font-family: 'BebasNeueBold';
+    src: url('../fonts/Bebas/bebas_neue_bold.woff2') format('woff2'),
+    url('../fonts/Bebas/bebas_neue_bold.ttf') format('ttf');
+    font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'BebasNeueLight';
+    src: url('../fonts/Bebas/bebas_neue_light.woff2') format('woff2'),
+    url('../fonts/Bebas/bebas_neue_light.ttf') format('ttf');
+    font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('../fonts/Bebas/bebas_neue_regular.woff2') format('woff2'),
+    url('../fonts/Bebas/bebas_neue_regular.ttf') format('ttf');
+    font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'BebasNeueBook';
+    src: url('../fonts/Bebas/bebas_neue_book.woff2') format('woff2'),
+    url('../fonts/Bebas/bebas_neue_book.ttf') format('ttf');
+    font-weight: 400;
+	font-style: normal;
+}
+
+*{
+    font-family: 'BebasNeueRegular', sans-serif;
+}
+
+.main_link .main_image{
+    width: calc(min(80px, 50px + (80 - 50) * ((100vw - 320px) / (1920 - 320))));
+    height: calc(min(80px, 50px + (80 - 50) * ((100vw - 320px) / (1920 - 320))));
+}
+
+.wrapper{
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main{
+    flex-grow: 1;
+    background-color: #f3f1ee;
+}
+
+/*HEADER STYLES*/
+
+.header{
+    width: 100%;
+    margin: 0 auto;
+    background: #003e54;
+}
+
+.header__content{
+    width: calc(min(1000px, 280px + (1000 - 280) * ((100vw - 320px) / (1920 - 320))));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+}
+
+.header .search__projects_form{
+    position: relative;
+    width: calc(min(400px, 160px + (400 - 160) * ((100vw - 320px) / (1920 - 320))));
+}
+
+.header .form__input{
+    font-family: 'BebasNeueRegular', sans-serif;
+    font-size: calc(min(18px, 14px + (18 - 14) * ((100vw - 320px) / (1920 - 320))));
+    width: 100%;
+    padding: 10px 40px 10px calc(min(20px, 15px + (20 - 15) * ((100vw - 320px) / (1920 - 320))));
+    border: none;
+    border-radius: 5px;
+    letter-spacing: 0.04em;
+}
+
+.header .form__input::placeholder{
+    font-family: 'BebasNeueBold', sans-serif;
+}
+
+.header .form__input:focus{
+    outline: none;
+}
+
+.header .form__submit{
+    cursor: pointer;
+    position: absolute;
+    right: -50px;
+    top: 48%;
+    translate: 0 -50%;
+    padding: 5px 10px;
+    border: none;
+    background-image: url("../images/loupe.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/*FOOTER STYLES*/
+
+.footer{
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+    background-color: #f3f1ee;
+}
+
+.footer__content{
+    width: calc(min(1000px, 280px + (1000 - 280) * ((100vw - 320px) / (1920 - 320))));
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.footer .to_start{
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    padding: 12px;
+    font-family: 'BebasNeueRegular', sans-serif;
+}
