@@ -2,13 +2,21 @@
 {% load static %}
 
 {% block content %}
+    <article class="article__search">
+        <h1 class="search__title">Изучите проекты с прошедших хакатонов</h1>
+        <form action="{% url 'projects:search' %}" class="search__projects_form" method="get">
+            <input type="text" class="form__input" placeholder="Введите название проекта" name="search">
+            <input type="submit" value="" class="form__submit">
+        </form>
+    </article>
+
     <div class="projects">
         <aside class="projects__filter">
             {% for cat in categories %}
                 <div class="filter__item">
-                    <p class="item__name">{{ cat.category }}</p>
+                    <label class="item__name" for="checkbox_category-{{ cat.id }}">{{ cat.category }}</label>
                     <div class="item__checkbox">
-                        <input type="checkbox" data-set-id="{{ cat.id }}" class="item__checkbox_input">
+                        <input type="checkbox" data-set-id="{{ cat.id }}" id="checkbox_category-{{ cat.id }}" class="item__checkbox_input">
                         <div class="checkbox_image"></div>
                     </div>
                 </div>
@@ -27,5 +35,13 @@
             {% endfor %}
         </div>
         <div class="projects__load"><img src="{% static 'images/loading.gif' %}" alt="Загрузка" class="load_gif"></div>
+    </div>
+    <div class="popular_tags">
+        <h2 class="popular_tags__title">Популярные теги</h2>
+        <ul class="tags__list">
+            {% for tag in tags_popular %}
+                <li class="list__item"><a href="{{ tag.get_absolute_url }}" class="item__link">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

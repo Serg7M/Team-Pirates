@@ -1,19 +1,22 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import *
 import json
 from django.http import JsonResponse
+from django.db.models import F
 
 
 def home(request):
 
     projects = Project.objects.order_by('-id')
     categories = Category.objects.all()
+    tags_popular = Tag.objects.order_by('-views')[:8]
 
     context = {
         'title': 'Главная',
         'projects': projects,
         'categories': categories,
+        'tags_popular': tags_popular,
     }
 
     return render(request, 'home.html', context)
@@ -81,3 +84,20 @@ def filter_fetch(request):
     }
 
     return JsonResponse(obj)
+
+
+def tag_detail(request, tag_detail_slug):
+
+    tag = get_object_or_404(Tag, slug=tag_detail_slug)
+    tag.views = F('views') + 1
+    tag.save()
+    tag.refresh_from_db()  # Вся эта процедура выясняет самую популярную категорию. При переходе увеличивается поле views на 1
+    projects = Project.objects.filter(tag__id=tag.id)
+
+    context = {
+        'title': f'Проекты по тегу {tag.name}',
+        'tag': tag,
+        'projects': projects,
+    }
+
+    return render(request, 'category_detail.html', context)

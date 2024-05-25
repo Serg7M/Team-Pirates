@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="project-detail">
+    <div class="container__project-detail">
+        <div class="project-detail">
         <div class="owl-carousel owl-theme owl-slider-photos" id="slider-photos">
+            {% for vid in project.project_video.all %}
+                <div class="slide">
+                    <iframe style="width: 100%;" class="youtube-video" src="{{ vid.video }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            {% endfor %}
             {% for img in project.project_image.all %}
                 <div class="slide">
                     <img src="{{ img.image.url }}" alt="{{ project.name }}">
                 </div>
             {% endfor %}
         </div>
-        {% if project.team %}
-            <div class="team project-detail__block">
-                <h2 class="team__title block__title">Команда:</h2>
-                <p class="team__description block__description">{{ project.team }}</p>
-            </div>
-        {% endif %}
         {% if project.task %}
             <div class="task project-detail__block">
                 <h2 class="task__title block__title">Задача:</h2>
@@ -27,20 +28,56 @@
                 <p class="solution__description block__description">{{ project.solution }}</p>
             </div>
         {% endif %}
-        <p class="project-detail__description">{{ project.description }}</p>
+        <div class="project-detail__description">{% autoescape off %}{{ project.long_description }}{% endautoescape %}</div>
         <ul class="project-detail__technologies">
-            <h2 class="project-detail__technologies__title">Технологии:</h2>
+            <h2 class="project-detail__technologies__title">Построен с</h2>
+            <div class="technologies__list">
             {% for tech in project.technologies.all %}
                 <li class="technology">{{ tech.technology }}</li>
             {% endfor %}
+            </div>
         </ul>
-        <div class="videos">
-            {% for vid in project.project_video.all %}
-                <iframe width="560" height="315" src="{{ vid.video }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            {% endfor %}
-        </div>
         {% if project.git_link %}
-            <h3 class="project-detail__git_link">Ссылка на репозиторий: <a href="{{ project.git_link }}" class="git_link">git</a></h3>
+            <h3 class="project-detail__git_link">Попробуйте это:</h3>
+            <a href="{{ project.git_link }}" class="git_link">
+                <img src="{% static 'images/github-icon.png' %}" alt="Иконка гитхаб" class="git_icon">
+                Репозиторий GitHub</a>
         {% endif %}
+    </div>
+        <aside class="project-detail__sidebar">
+            <h2 class="sidebar__title">Участник хакатона</h2>
+            <div class="hackaton">
+                <img src="{{ project.hackaton.image.url }}" alt="{{ project.hackaton.hackaton }}" class="image">
+                <div class="hackaton__info">
+                    <p class="hackaton_name">{{ project.hackaton.hackaton }}</p>
+                    {% if project.hackaton_place %}
+                        <h3 class="winner">ПОБЕДИТЕЛЬ</h3>
+                    {% endif %}
+                    <p class="hackaton_place">{{ project.hackaton_place }} место</p>
+                </div>
+            </div>
+            {% if project.name_team %}
+                <div class="done">
+                    <h3 class="done__title">Сделано</h3>
+                    <p class="done__name_team">{{ project.name_team }}</p>
+                </div>
+            {% endif %}
+            <ul class="list_team">
+                {% for user in project.team.all %}
+                    <li class="team__user">
+                        <div class="content-user">
+                            <div class="avatar">
+                                <img src="{{ user.image.url }}" alt="{{ user.name }}" class="avatar">
+                            </div>
+                            <div class="user__info">
+                                <h3 class="info__name">{{ user.name }}</h3>
+                                <p class="info__post">{{ user.post }}</p>
+                            </div>
+                        </div>
+                        <p class="user__description">{{ user.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
     </div>
 {% endblock %}

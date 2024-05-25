@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d2df414b-a941-453d-8f50-e3998f31498c" name="hackaton3.magomed487.beget.tech" url="http://hackaton3.magomed487.beget.tech">
+        <fileTransfer host="hackaton3.magomed487.beget.tech" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

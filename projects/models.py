@@ -2,11 +2,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class ProjectImage(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.PROTECT, related_name="project_image", verbose_name="Проект:")
-    image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name="Фотография:")
+    project = models.ForeignKey("Project", on_delete=models.PROTECT, related_name="project_image", verbose_name="Проект")
+    image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name="Фотография")
 
     def __str__(self):
         return self.project.name
@@ -39,16 +40,44 @@ class ProjectVideo(models.Model):
         verbose_name_plural = "Видео"
 
 
-class ProjectPresentations(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.PROTECT, verbose_name="Проект:", related_name="project_presentation")
-    presentation = models.FileField(upload_to='presentation/%Y/%m/%d', blank=True, verbose_name='Презентация')
+class Tag(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Название тега')
+    views = models.PositiveBigIntegerField(default=0, verbose_name="Количество просмотров")
+    slug = models.SlugField(max_length=75, unique=True, verbose_name='Слаг тега')
+
+    def clean(self):
+        super().clean()
+        if self.pk:  # Проверяем, что объект уже сохранен в базе данных (имеет первичный ключ)
+            original = self.__class__.objects.get(pk=self.pk)  # Получаем исходный объект из базы данных
+            if self.name != original.name:
+                while Tag.objects.filter(slug=self.slug).exists():
+                    last_letter_slug = self.slug[-1]
+                    try:
+                        last_letter_slug_int = int(last_letter_slug)
+                        last_letter_slug_int += 1
+                        self.slug = self.slug[:-1] + str(last_letter_slug_int)
+                    except ValueError:
+                        self.slug += '2'
+        else:
+            while Tag.objects.filter(slug=self.slug).exists():
+                last_letter_slug = self.slug[-1]
+                try:
+                    last_letter_slug_int = int(last_letter_slug)
+                    last_letter_slug_int += 1
+                    self.slug = self.slug[:-1] + str(last_letter_slug_int)
+                except ValueError:
+                    self.slug += '2'
+
+    def get_absolute_url(self):
+        return reverse('projects:tag_detail', kwargs={"tag_detail_slug": self.slug})
 
     def __str__(self):
-        return self.project.name
+        return self.name
 
     class Meta:
-        verbose_name = "Презентация"
-        verbose_name_plural = "Презентации"
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
+        ordering = ['name']
 
 
 class Category(models.Model):
@@ -63,6 +92,21 @@ class Category(models.Model):
         ordering = ['category']
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=40, verbose_name='Имя фамилия')
+    post = models.CharField(max_length=30, verbose_name='Должность')
+    description = models.TextField(max_length=150, verbose_name='Описание')
+    image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name="Фотография")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Участник команды"
+        verbose_name_plural = "Участники команды"
+        ordering = ['name']
+
+
 class Technologies(models.Model):
     technology = models.CharField(max_length=40, verbose_name='Название Технологии')
 
@@ -75,17 +119,33 @@ class Technologies(models.Model):
         ordering = ['technology']
 
 
+class Hackaton(models.Model):
+    hackaton = models.CharField(max_length=40, verbose_name='Хакатон')
+    description = models.TextField(max_length=400, blank=True, verbose_name='Описание')
+    image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name='Фото')
+
+    def __str__(self):
+        return self.hackaton
+
+    class Meta:
+        verbose_name = "Хакатон"
+        verbose_name_plural = "Хакатоны"
+        ordering = ['hackaton']
+
+
 class Project(models.Model):
     name = models.CharField(max_length=40, verbose_name='Название проекта')
     slug = models.SlugField(max_length=75, unique=True, verbose_name='Слаг проекта')
-    photo = models.ImageField(upload_to="images/%Y/%m/%d", verbose_name="Фотография для карточки:")
+    photo = models.ImageField(upload_to="images/%Y/%m/%d", verbose_name="Фотография для карточки")
     category = models.ForeignKey(to="Category", on_delete=models.PROTECT, verbose_name="Категория проекта")
+    tag = models.ForeignKey(to="Tag", on_delete=models.PROTECT, verbose_name="Тег проекта")
     name_team = models.CharField(max_length=20, blank=True, verbose_name='Название команды')
-    team = models.TextField(max_length=100, blank=True, verbose_name='Состав команды')
-    task = models.TextField(max_length=600, blank=True, verbose_name='Задача')
-    solution = models.TextField(max_length=800, blank=True, verbose_name='Решение')
+    team = models.ManyToManyField(to='Team', verbose_name='Состав команды')
     technologies = models.ManyToManyField(to='Technologies', verbose_name='Используемые технологии')
-    description = models.TextField(max_length=1200, verbose_name='Описание')
+    description = models.TextField(max_length=120, verbose_name='Описание')
+    long_description = CKEditor5Field('Описание', config_name='extends', blank=True)
+    hackaton = models.ForeignKey(to='Hackaton', on_delete=models.PROTECT, verbose_name='Хакатон')
+    hackaton_place = models.CharField(max_length=10, blank=True, verbose_name='Занятое место в хакатоне')
     git_link = models.URLField(blank=True, verbose_name='Ссылка на репозиторий')
 
     def clean(self):
