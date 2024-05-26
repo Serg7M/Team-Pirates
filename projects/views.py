@@ -24,11 +24,11 @@ def home(request):
 
 def project_detail(request, project_detail_slug):
 
-    project = Project.objects.get(slug=project_detail_slug)
+    project_obj = Project.objects.get(slug=project_detail_slug)
 
     context = {
-        'title': project.name,
-        'project': project,
+        'title': project_obj.name,
+        'project': project_obj,
     }
 
     return render(request, 'project_detail.html', context)
@@ -75,8 +75,11 @@ def filter_fetch(request):
                 'name': proj.name,
                 'description': description,
                 'name_team': proj.name_team,
+                'winner': proj.hackaton_place
             }
             projects.append(proj_obj)
+
+    projects = remove_duplicates(projects)
 
     obj = {
         'status': 'ok',
@@ -101,3 +104,15 @@ def tag_detail(request, tag_detail_slug):
     }
 
     return render(request, 'category_detail.html', context)
+
+
+def remove_duplicates(data):
+    seen = []
+    result = []
+    for item in data:
+        # Преобразование каждого словаря в неизменяемый тип данных (кортеж) для сравнения
+        tuple_item = frozenset(item.items())
+        if tuple_item not in seen:
+            seen.append(tuple_item)
+            result.append(item)
+    return result

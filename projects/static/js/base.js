@@ -26,8 +26,13 @@ if(projects__filter){
             .then(result => {
                 let template_projects = ``;
                 for(let proj of result['projects']){
+                    let winner = '<div></div>';
+                    if(proj['winner'] === 1 || proj['winner'] === 2 || proj['winner'] === 3){
+                        winner = '<img src="/static/images/winner.png" alt="Победитель" class="winner_image">';
+                    }
                     let tpl_proj = `
                         <a class="card" href="${proj['url']}">
+                            ${winner}         
                             <img src="${proj['photo']}" alt="${proj['name']}" class="card__image">
                             <h3 class="card__title">${proj['name']}</h3>
                             <p class="card__description">
@@ -45,3 +50,21 @@ if(projects__filter){
         }
     })
 }
+
+const gamburger_icon = document.querySelector('.header .gamburger-icon');
+const close_icon = document.querySelector('.header .close-icon');
+const header_content = document.querySelector('.header__content');
+const overlay_header = document.querySelector('.header .overlay');
+
+
+gamburger_icon.addEventListener('click', ()=>{
+    header_content.classList.add('header__content_transition');
+    header_content.classList.remove('header__content_transition_out');
+    overlay_header.style.display = 'block';
+})
+
+close_icon.addEventListener('click', ()=>{
+    overlay_header.style.display = 'none';
+    header_content.classList.remove('header__content_transition');
+    header_content.classList.add('header__content_transition_out');
+})

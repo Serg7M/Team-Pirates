@@ -25,6 +25,9 @@
         <div class="projects__content">
             {% for proj in projects %}
                 <a class="card" href="{{ proj.get_absolute_url }}">
+                    {% if proj.hackaton_place == 1 %}
+                        <img src="{% static 'images/winner.png' %}" alt="Победитель" class="winner_image">
+                    {% endif %}
                     <img src="{{ proj.photo.url }}" alt="{{ proj.name }}" class="card__image">
                     <h3 class="card__title">{{ proj.name }}</h3>
                     <p class="card__description">

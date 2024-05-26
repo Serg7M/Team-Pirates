@@ -5,12 +5,12 @@
     <div class="container__project-detail">
         <div class="project-detail">
         <div class="owl-carousel owl-theme owl-slider-photos" id="slider-photos">
-            {% for vid in project.project_video.all %}
+            {% for vid in project.projectvideo_set.all %}
                 <div class="slide">
                     <iframe style="width: 100%;" class="youtube-video" src="{{ vid.video }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             {% endfor %}
-            {% for img in project.project_image.all %}
+            {% for img in project.projectimage_set.all %}
                 <div class="slide">
                     <img src="{{ img.image.url }}" alt="{{ project.name }}">
                 </div>
@@ -47,10 +47,9 @@
         <aside class="project-detail__sidebar">
             <h2 class="sidebar__title">Участник хакатона</h2>
             <div class="hackaton">
-                <img src="{{ project.hackaton.image.url }}" alt="{{ project.hackaton.hackaton }}" class="image">
                 <div class="hackaton__info">
                     <p class="hackaton_name">{{ project.hackaton.hackaton }}</p>
-                    {% if project.hackaton_place %}
+                    {% if project.hackaton_place == 1 %}
                         <h3 class="winner">ПОБЕДИТЕЛЬ</h3>
                     {% endif %}
                     <p class="hackaton_place">{{ project.hackaton_place }} место</p>
@@ -63,7 +62,7 @@
                 </div>
             {% endif %}
             <ul class="list_team">
-                {% for user in project.team.all %}
+                {% for user in project.team_set.all %}
                     <li class="team__user">
                         <div class="content-user">
                             <div class="avatar">

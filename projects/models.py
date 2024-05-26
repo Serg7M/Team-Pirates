@@ -6,7 +6,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 
 class ProjectImage(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.PROTECT, related_name="project_image", verbose_name="Проект")
+    project = models.ForeignKey("Project", on_delete=models.PROTECT, verbose_name="Проект")
     image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name="Фотография")
 
     def __str__(self):
@@ -24,7 +24,7 @@ class ProjectImage(models.Model):
 
 
 class ProjectVideo(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.PROTECT, verbose_name="Проект:", related_name="project_video")
+    project = models.ForeignKey("Project", on_delete=models.PROTECT, verbose_name="Проект",)
     video = models.URLField(blank=True, default='https://www.youtube.com/embed/', verbose_name='Видео', help_text='https://www.youtube.com/embed/ ДОЛЖНО СТОЯТЬ ВНАЧАЛЕ ВМЕСТО https://www.youtube.com/')
 
     def __str__(self):
@@ -93,9 +93,10 @@ class Category(models.Model):
 
 
 class Team(models.Model):
+    project = models.ForeignKey(to="Project", on_delete=models.PROTECT, verbose_name="Проект")
     name = models.CharField(max_length=40, verbose_name='Имя фамилия')
-    post = models.CharField(max_length=30, verbose_name='Должность')
-    description = models.TextField(max_length=150, verbose_name='Описание')
+    post = models.CharField(max_length=30, blank=True, verbose_name='Должность')
+    description = models.TextField(max_length=150, blank=True, verbose_name='Описание')
     image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name="Фотография")
 
     def __str__(self):
@@ -119,33 +120,18 @@ class Technologies(models.Model):
         ordering = ['technology']
 
 
-class Hackaton(models.Model):
-    hackaton = models.CharField(max_length=40, verbose_name='Хакатон')
-    description = models.TextField(max_length=400, blank=True, verbose_name='Описание')
-    image = models.ImageField(upload_to="images/%Y/%m/%d", blank=True, verbose_name='Фото')
-
-    def __str__(self):
-        return self.hackaton
-
-    class Meta:
-        verbose_name = "Хакатон"
-        verbose_name_plural = "Хакатоны"
-        ordering = ['hackaton']
-
-
 class Project(models.Model):
     name = models.CharField(max_length=40, verbose_name='Название проекта')
     slug = models.SlugField(max_length=75, unique=True, verbose_name='Слаг проекта')
     photo = models.ImageField(upload_to="images/%Y/%m/%d", verbose_name="Фотография для карточки")
-    category = models.ForeignKey(to="Category", on_delete=models.PROTECT, verbose_name="Категория проекта")
+    category = models.ManyToManyField(to="Category", verbose_name="Категория проекта")
     tag = models.ForeignKey(to="Tag", on_delete=models.PROTECT, verbose_name="Тег проекта")
     name_team = models.CharField(max_length=20, blank=True, verbose_name='Название команды')
-    team = models.ManyToManyField(to='Team', verbose_name='Состав команды')
     technologies = models.ManyToManyField(to='Technologies', verbose_name='Используемые технологии')
     description = models.TextField(max_length=120, verbose_name='Описание')
     long_description = CKEditor5Field('Описание', config_name='extends', blank=True)
-    hackaton = models.ForeignKey(to='Hackaton', on_delete=models.PROTECT, verbose_name='Хакатон')
-    hackaton_place = models.CharField(max_length=10, blank=True, verbose_name='Занятое место в хакатоне')
+    hackaton = models.CharField(max_length=40, verbose_name='Хакатон')
+    hackaton_place = models.SmallIntegerField(verbose_name='Занятое место в хакатоне')
     git_link = models.URLField(blank=True, verbose_name='Ссылка на репозиторий')
 
     def clean(self):
@@ -180,4 +166,4 @@ class Project(models.Model):
     class Meta:
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
-        ordering = ['name', ]
+        ordering = ['name']

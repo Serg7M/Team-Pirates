@@ -5,17 +5,13 @@ from .models import *
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category',)
     list_display_links = ('category',)
+    search_fields = ['category', ]
 
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'views')
     list_display_links = ('name', 'views')
     prepopulated_fields = {"slug": ("name",)}
-
-
-class HackatonAdmin(admin.ModelAdmin):
-    list_display = ('hackaton',)
-    list_display_links = ('hackaton',)
 
 
 class TechnologiesAdmin(admin.ModelAdmin):
@@ -31,10 +27,10 @@ class ProjectImageInline(admin.TabularInline):
     extra = 1
 
 
-class TeamAdmin(admin.ModelAdmin):
+class TeamInline(admin.TabularInline):
+    model = Team
     list_display = ('name', 'post',)
-    list_display_links = ('name', 'post',)
-    search_fields = ['name', ]
+    extra = 1
 
 
 class ProjectVideoInline(admin.TabularInline):
@@ -45,16 +41,14 @@ class ProjectVideoInline(admin.TabularInline):
 
 class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
-    list_display = ('name', 'category', 'name_team')
-    list_display_links = ('name', 'category', 'name_team')
-    search_fields = ['technologies', ]
-    autocomplete_fields = ['technologies', 'team']
-    inlines = [ProjectImageInline, ProjectVideoInline]
+    list_display = ('name', 'name_team')
+    list_display_links = ('name', 'name_team')
+    search_fields = ['name', ]
+    autocomplete_fields = ['technologies', 'category']
+    inlines = [ProjectImageInline, ProjectVideoInline, TeamInline]
 
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Technologies, TechnologiesAdmin)
-admin.site.register(Team, TeamAdmin)
-admin.site.register(Hackaton, HackatonAdmin)

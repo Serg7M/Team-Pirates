@@ -109,8 +109,15 @@
 }
 
 .projects .card{
+    position: relative;
     width: calc(min(368px, 220px + (368 - 220) * ((100vw - 1024px) / (1920 - 1024))));
     text-decoration: none;
+}
+
+.projects .card .winner_image{
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .projects__content .card__image{
