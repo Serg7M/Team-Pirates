@@ -1,0 +1,196 @@
+h1,h2,h3,h4,h5,h6 {
+	margin: 0;
+	font-family: 'TildaSans Semibold';
+}
+ 
+p {
+	margin: 0;
+}
+.wrapper {
+	max-width: 990px;
+	margin: 0 auto;
+}
+
+.header__box{
+	width: 100%;
+	height: auto;
+	margin-bottom: 42px;
+
+}
+ 
+.header__title {
+	width: 75%;
+	text-align: center;
+	margin: 0 auto 55px auto;
+}
+ 
+.header__title_h1 {
+	font-size: 48px;
+	font-family: 'TildaSans Bold';
+	padding: 10px 20px;
+	line-height: 1;
+}
+
+.header__search {
+	margin-bottom: 40px;
+}
+
+.header__search_input {
+	width: 600px;
+	position: relative;
+	border: none;
+	outline: none;
+	height: 36px;
+	font-size: 24px;
+	font-family: 'TildaSans Medium';
+}
+
+.header__search_input:focus {
+	border: none;
+}
+
+.header__search_inpu::placeholder {
+	content: 'Ищите проекты по ключевым словам ';
+
+}
+
+.header__search_form::before {
+	content: url('/img/search.svg');
+	width: 36px;
+	position: relative;
+	top: 15px;
+}
+
+.header__search_form::after {
+	content: '';
+	display: block;
+	position: relative;
+	left: 41px;
+	width: 100%;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(45deg, #EB6A2E, #E93673);
+}
+
+.header__filter {
+	display: flex;
+	position: relative;
+	flex-direction: row;
+}
+
+.header__filter_item {
+	display: flex;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+	font-size: 20px;
+	font-family: 'TildaSans Regular';
+}
+
+.header__filter_item:first-child {
+	margin-right: 38px
+}
+
+.header__filter_checkbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 8px;
+	border: 3px solid #1c1c1c;
+	opacity: .7;
+	margin-right: 8px;
+}
+
+.active {
+	display: block;
+	width: 25px;
+	height: 25px;
+	background-color: #1c1c1c;
+	opacity: .7;
+	position: relative;
+	z-index: -1;
+	border-radius: 5px;
+}
+
+
+.card-list {
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.card-list__card-list {
+	display: grid;
+	grid-template-columns: 260px 260px 260px 260px;
+	grid-row-gap: 40px;
+	grid-column-gap: 1em;
+}
+
+.card-list__card {
+	width: 100%;
+}
+
+.card-list__card__title {
+	margin-bottom: 16px;
+}
+
+.card-list__card__title_h3 {
+	font-family: 'TildaSans Bold';
+	font-size: 16px;
+}
+
+.card-list__card__text_p {
+	font-family: 'TildaSans Regular';
+	font-size: 14px;
+}
+
+.card-list__card__image {
+	margin-bottom: 18px;
+}
+
+.tags{
+	width: 100%;
+}
+
+.tags__item { 
+	display: flex;
+}
+
+.tags__title {
+	font-size: 24px;
+	font-family: 'TildaSans Bold';
+	margin-bottom: 10px;
+}
+
+.tags__item_p {
+	margin-right: 10px;
+	text-transform: uppercase;
+	font-family: 'TildaSans Regular';
+}
+
+
+@font-face {
+	font-family: 'TildaSans Bold'; 
+	src: url(/fonts/TildaSans-Bold.ttf); 
+}
+
+@font-face {
+	font-family: 'TildaSans Medium'; 
+	src: url(/fonts/TildaSans-Medium.ttf); 
+}
+
+@font-face {
+	font-family: 'TildaSans Semibold'; 
+	src: url(/fonts/TildaSans-Semibold.ttf); 
+}
+
+@font-face {
+	font-family: 'TildaSans Regular'; 
+	src: url(/fonts/TildaSans-Regular.ttf); 
+}
+
+@font-face {
+	font-family: 'TildaSans Light'; 
+	src: url(/fonts/TildaSans-Light.ttf); 
+}
